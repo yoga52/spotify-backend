@@ -10,18 +10,23 @@ app.use(express.json())
 const musicPlayer = new MusicPlayer()
 const defaultList = [
     {
-    title:"Sandstorm",
-    artists:["darude","DJ DJ AN"],
-    year:2009,
-    url:"https://open.spotify.com/track/2lylyZl9S7rbp2FUP5IS0r?si=13b2a17228924cc0"
+        uid:1234567,
+        title:"Sandstorm",
+        artists:["darude","DJ DJ AN"],
+        year:2009,
+        url:"https://open.spotify.com/track/2lylyZl9S7rbp2FUP5IS0r?si=13b2a17228924cc0",
+        playCount:15203
     },
     {
+        uid:2348543,
         title:"Trololo",
         artists:["unknown"],
         year:2002,
-        url:"https://open.spotify.com/track/2lylyZl9S7rbp2FUP5IS0r?si=13b2a17228924cc0"
+        url:"https://open.spotify.com/track/2lylyZl9S7rbp2FUP5IS0r?si=13b2a17228924cc0",
+        playCount:20300
     },
     {
+        uid:4442124,
         title:"Rude Zedd Remix",
         artists:["Magic","Zedd"],
         year:2002,
@@ -34,40 +39,10 @@ musicPlayer.addMusic(defaultList)
 console.log("Showing List:");
 
 app.get('/list', (req, res) => {
-    res.json(musicPlayer.playListData())
+    res.json(musicPlayer.musicData())
 })
-
-app.get('/play', (req, res) => {
-    
-    try{
-        res.json(musicPlayer.playMusic())
-    }
-    catch(error){
-        console.log("NO WORK : \n"+error);
-        res.status(405)
-        res.send("NO WORK : \n"+error)
-    }   
-})
-app.get('/addPlayCount/:idx', (req, res) => {
-    try{
-        res.json(musicPlayer.addPlayCount1(req.params.idx))
-    }
-    catch(error){
-        res.status(405)
-        console.log("NO WORK : \n"+error);
-        res.send("NO WORK : \n"+error)
-    }
-})
-
-app.get('/addPlayCount/:idx/:c', (req, res) => {
-    try{
-        res.json(musicPlayer.addPlayCount(req.params.idx,req.params.c))
-    }
-    catch(error){
-        res.status(405)
-        console.log("NO WORK : \n"+error);
-        res.send("NO WORK : \n"+error)
-    }
+app.get('/list/sorted', (req, res) => {
+    res.json(musicPlayer.sortedMusicList())
 })
 
 app.get('/play/:idx', (req, res) => {
